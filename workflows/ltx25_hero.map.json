@@ -1,0 +1,9 @@
+{
+  "positive_prompt": {"node": "4", "input": "text"},
+  "negative_prompt": {"node": "5", "input": "text"},
+  "seed": {"node": "7", "input": "seed"},
+  "width": {"node": "6", "input": "width"},
+  "height": {"node": "6", "input": "height"},
+  "length": {"node": "6", "input": "length"},
+  "fps": {"node": "9", "input": "frame_rate"}
+}

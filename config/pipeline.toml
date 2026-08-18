@@ -1,0 +1,74 @@
+# Pipeline-wide settings. Nothing in src/ may hardcode any value that belongs here.
+
+[paths]
+output_root = "./output"
+workflows = "./workflows"
+species = "./config/species"
+
+# Two independent generation queues. Diffusion video models do not shard across
+# consumer cards without NVLink -- these are separate ComfyUI processes, each
+# pinned to one GPU, never one logical device spanning both.
+[[gpu]]
+name = "hero"
+device_index = 0
+gpu = "RTX 5090"
+vram_gb = 32
+host_env = "COMFYUI_HOST"
+model = "ltx-2.5-fp8"
+workflow = "ltx25_hero.api.json"
+max_resolution = [1280, 720]
+notes = "Quality tier. Native audio+video in one pass. License re-verified before shipping."
+
+[[gpu]]
+name = "bulk"
+device_index = 1
+gpu = "RTX 3090"
+vram_gb = 24
+host_env = "COMFYUI_HOST_SECONDARY"
+model = "wan2.2-ti2v-5b"
+workflow = "wan22_bulk.api.json"
+max_resolution = [1280, 704]
+notes = "Apache 2.0 workhorse. Unrestricted commercial use."
+
+[generation]
+poll_interval_s = 3.0
+job_timeout_s = 1800
+fps = 24
+
+[qc]
+# A clip must clear every one of these to reach output/approved/.
+min_duration_s = 4.0
+max_duration_s = 12.0
+min_width = 960
+min_height = 540
+# Fraction of sampled frames allowed to be near-black or near-static before reject.
+max_black_frame_ratio = 0.10
+max_static_frame_ratio = 0.25
+# Mean absolute frame-to-frame delta below this reads as a frozen/collapsed clip.
+min_motion_score = 1.5
+# Above this, the clip is thrashing -- usually temporal incoherence, not motion.
+max_motion_score = 60.0
+frame_sample_count = 24
+# M0 criterion 5: if the reject rate exceeds this, daily cadence is not viable.
+reject_rate_alarm = 0.70
+
+[assembly]
+width = 1920
+height = 1080
+fps = 24
+video_codec = "libx264"
+crf = 18
+preset = "slow"
+audio_codec = "aac"
+audio_bitrate = "192k"
+# Cross-dissolve between clips, in seconds. 0 disables.
+transition_s = 0.0
+min_clips = 8
+min_duration_s = 60.0
+max_duration_s = 90.0
+
+[disclosure]
+# Hard rule 3. Non-negotiable, enforced in code, no bypass flag exists.
+youtube_altered_content = true
+tiktok_aigc_label = true
+description_line = "This video is AI-generated. All footage was synthesized locally; no real animals were filmed."
