@@ -1,0 +1,79 @@
+# M0 species -- committed per KICKOFF.md.
+#
+# Why this one: terrestrial, broad daylight, medium-scale, slow deliberate motion.
+# No water surfaces and no fur close-ups, which are exactly where local open-weight
+# video models fall apart. Keratin shell and scaled forelimbs are hard-edged
+# surfaces the models render far more convincingly than fur. If M0 fails criterion 4
+# on this species, it will fail on every harder one -- which is the point of picking it.
+
+id = "desert_tortoise"
+display_name = "Desert Tortoise"
+scale = "low-to-ground, 20cm eye height"
+locomotion = "slow, rocking, deliberate"
+
+[camera]
+# The camera is attached to the animal. This is the format's whole premise.
+mount = "head-mounted POV, 20cm above ground, slight downward tilt"
+lens = "wide angle 18mm, mild barrel distortion, shallow depth of field falloff at distance"
+motion = "slow rocking gait sway, low amplitude, 0.5 Hz, occasional head turn"
+
+[prompt]
+base = "first-person POV from a desert tortoise, head-mounted camera 20cm above the ground"
+style = "photorealistic, natural daylight, documentary wildlife footage, 35mm film grain, no text, no watermark"
+negative = "human hands, human legs, blurry, warped geometry, morphing limbs, extra limbs, text, watermark, cartoon, 3d render, plastic skin, flickering, temporal artifacts, water reflections"
+
+# Beat pools. The planner draws a distinct structure per episode -- hard rule 2.
+# Swapping a species name into an identical template is the demonetization pattern;
+# variety here is enforced by src/prompts/generator.py, not by good intentions.
+[beats]
+open = [
+  "emerging from a shaded burrow mouth into hard morning light",
+  "waking half-buried under a creosote bush, grit sliding off the shell rim",
+  "already mid-crossing on open hardpan, heat shimmer on the horizon",
+  "in the blue shade of a boulder, sun line advancing across the sand",
+]
+travel = [
+  "crossing cracked hardpan, each footfall lifting a small puff of dust",
+  "picking a line between spiny cholla, forelimbs pushing gravel aside",
+  "climbing a shallow gravel bank, the horizon tilting with the effort",
+  "following a dry wash, smooth stones passing under the lower frame",
+  "pushing through dry grass that scrapes the top of the shell",
+]
+encounter = [
+  "a black beetle crosses directly in front, close enough to fill the frame",
+  "a side-blotched lizard freezes on a rock, then bolts left",
+  "a raven lands ten metres ahead and watches, head cocked",
+  "another tortoise approaches head-on and stops, shells nearly touching",
+  "a jackrabbit breaks from cover to the right, gone in a second",
+]
+tension = [
+  "a hawk shadow sweeps across the ground and the head pulls back",
+  "the sand ahead drops away into an unseen wash",
+  "wind picks up and dust closes the horizon to a few metres",
+  "loose scree slides underfoot on the bank and the frame lurches",
+]
+reward = [
+  "reaching a patch of yellow desert dandelion and lowering to feed",
+  "finding a shallow rain pocket held in stone, drinking",
+  "arriving at deep shade under a rock overhang, the light dropping cool",
+  "cresting the bank onto a wide flat with the whole valley opening ahead",
+]
+close = [
+  "settling into the burrow mouth, light narrowing to a slot",
+  "head withdrawing, the frame darkening under the shell rim",
+  "stillness in shade, only heat shimmer moving in the distance",
+  "the sun dropping low, shadow of the shell stretching far ahead",
+]
+
+[light]
+options = [
+  "hard low-angle morning sun, long shadows, warm key",
+  "high noon, near-vertical light, bleached highlights, short shadows",
+  "late afternoon golden hour, amber rim light on rock edges",
+  "thin overcast, soft flat light, muted desaturated palette",
+]
+
+[audio]
+# No narration by default -- ambient sound and visual storytelling.
+bed = "desert_ambient_wind.wav"
+gain_db = -18.0

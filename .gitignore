@@ -1,0 +1,16 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+output/raw/
+output/approved/
+output/rejected/
+output/final/
+models/
+*.safetensors
+*.gguf
+reference/*
+!reference/.gitkeep
+.DS_Store
